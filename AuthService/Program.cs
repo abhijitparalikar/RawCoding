@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -17,10 +18,28 @@ namespace AuthBasics
             builder.Services.AddAuthentication("cookie")
                 .AddCookie("cookie");
 
+            builder.Services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Super-User", pb =>
+                {
+                    pb.RequireAuthenticatedUser()
+                    .AddAuthenticationSchemes("cookie")
+                    .RequireClaim("user", "abhi");
+                });
+
+                options.AddPolicy("Admin-User", pb =>
+                {
+                    pb.RequireAuthenticatedUser()
+                    .AddAuthenticationSchemes("cookie")
+                    .RequireClaim("user", "admin");
+                });
+            });
+
             var app = builder.Build();
 
             //built-in; add middleware for authentication
             app.UseAuthentication();
+            app.UseAuthorization();
 
             #region custom authentication layer
             /*app.Use(async (ctx, next) =>
@@ -57,17 +76,18 @@ namespace AuthBasics
 
             app.MapGet("/", () => "Hello World!");
 
+            //[Authorize(Policy = "Super-User")] //allowed only in controller based apps
             app.MapGet("/user", (HttpContext ctx, IDataProtectionProvider idp) =>
             {
                 //retrieval can remain the same regardless of built-in or custom implementation
                 return ctx.User.FindFirst("user")?.Value ?? "Authentication Failure; No user found";
-            });
+            }).RequireAuthorization("Admin-User");
 
            
 
             app.MapGet("/login", async (HttpContext ctx) =>
             {
-                List<Claim> claims = [new Claim("user", "abhi")];
+                List<Claim> claims = [new Claim("user", "abhi"), new Claim("user", "admin")];                
                 ClaimsIdentity identity = new(claims, "cookie");
                 ClaimsPrincipal principal = new(identity);
                 ctx.User = principal;
@@ -75,7 +95,7 @@ namespace AuthBasics
                 //built-in; use built in SignInAsync to deal cookie
                 await ctx.SignInAsync(principal);
                 return "login success";
-            });
+            }).AllowAnonymous();
 
             app.Run();
         }
