@@ -5,6 +5,8 @@ VisualStudioVersion = 17.14.36310.24
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthService", "AuthService\AuthService.csproj", "{478B7CB6-EDD2-4AA1-8742-6C8BB5B5A193}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityService", "IdentityService\IdentityService.csproj", "{66F65293-220E-4EEE-98D1-8CD4F4240A00}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{478B7CB6-EDD2-4AA1-8742-6C8BB5B5A193}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{478B7CB6-EDD2-4AA1-8742-6C8BB5B5A193}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{478B7CB6-EDD2-4AA1-8742-6C8BB5B5A193}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66F65293-220E-4EEE-98D1-8CD4F4240A00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66F65293-220E-4EEE-98D1-8CD4F4240A00}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66F65293-220E-4EEE-98D1-8CD4F4240A00}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66F65293-220E-4EEE-98D1-8CD4F4240A00}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
